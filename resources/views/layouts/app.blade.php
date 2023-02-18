@@ -19,10 +19,18 @@
     @livewireStyles
 </head>
 
-<body class="bg-white dark:bg-black">
-    <x-nav-bar/>
+<body class="min-h-screen bg-white dark:bg-black">
+    <div class="flex flex-col" id="post">
+        <x-nav-bar />
+
+        <main class="flex items-center justify-center p-6">
+            {{ $slot }}
+        </main>
+
+        <x-footer/>
+        
+    </div>
     
-    {{ $slot }}
     @livewireScripts
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script>
