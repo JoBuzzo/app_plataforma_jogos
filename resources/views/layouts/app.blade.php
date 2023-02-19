@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>GameComm - @yield('title')</title>
     @vite('resources/css/app.css')
     <script>
         // On page load or when changing themes, best to add inline in `head` to avoid FOUC
@@ -26,7 +26,7 @@
         </div>
 
         <main class="flex items-center justify-center p-6 my-20">
-            {{ $slot }}
+            @yield('slot')
         </main>
     </div>
     <div class="absolute bottom-0 w-full">
