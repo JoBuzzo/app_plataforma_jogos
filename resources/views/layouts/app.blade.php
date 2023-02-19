@@ -21,15 +21,15 @@
 
 <body class="min-h-screen bg-white dark:bg-black">
     <div class="flex flex-col" id="post">
-        <x-nav-bar />
+        <div class="fixed top-0 left-0 right-0 z-50">
+            <x-nav-bar />
+        </div>
 
-        <main class="flex items-center justify-center p-6">
+        <main class="flex items-center justify-center p-6 my-20">
             {{ $slot }}
         </main>
-
-        <x-footer/>
-        
     </div>
+    <x-footer/>
     
     @livewireScripts
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
