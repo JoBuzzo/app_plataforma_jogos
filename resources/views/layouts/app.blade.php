@@ -19,7 +19,7 @@
     @livewireStyles
 </head>
 
-<body class="min-h-screen bg-white dark:bg-black">
+<body class="relative min-h-screen bg-white dark:bg-black">
     <div class="flex flex-col" id="post">
         <div class="fixed top-0 left-0 right-0 z-50">
             <x-nav-bar />
@@ -29,7 +29,9 @@
             {{ $slot }}
         </main>
     </div>
-    <x-footer/>
+    <div class="absolute bottom-0 w-full">
+        <x-footer/>
+    </div>
     
     @livewireScripts
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
