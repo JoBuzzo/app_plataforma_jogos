@@ -45,7 +45,7 @@
             <ul
                 class="flex p-4 space-x-8 text-sm font-medium dark:bg-gray-900">
                 <li>
-                    <a href="#" class="link-active">Feed</a>
+                    <a href="{{ route('welcome') }}" class="link-active">Feed</a>
                 </li>
                 <li>
                     <a href="#" class="link-no-active">Jogos</a>
@@ -60,7 +60,7 @@
     <div x-show="mobile" class="absolute py-4 right-1 top-12 h-96">
         <ul class="w-48 text-sm font-medium bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600">
             <li class="w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                <a href="#" class="link-active">Feed</a>
+                <a href="{{ route('welcome') }}" class="link-active">Feed</a>
             </li>
             <li class="w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600">
                 <a href="#" class="link-no-active">Jogos</a>
