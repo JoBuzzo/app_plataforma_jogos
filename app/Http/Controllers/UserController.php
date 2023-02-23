@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -25,13 +26,6 @@ class UserController extends Controller
         return view('user.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request): RedirectResponse
-    {
-        return redirect()->route('user.show');
-    }
 
     /**
      * Display the specified resource.
@@ -46,16 +40,11 @@ class UserController extends Controller
      */
     public function edit(string $id): View
     {
-        return view('user.edit');
+        $user = User::find($id);
+
+        return view('user.edit', compact('user'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id): RedirectResponse
-    {
-        return redirect();
-    }
 
     /**
      * Remove the specified resource from storage.

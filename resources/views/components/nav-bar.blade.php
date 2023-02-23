@@ -14,7 +14,7 @@
             
             <div x-show="user" x-transition class="user-dropdown">
                 <div class="px-4 py-3">
-                    <span class="block text-sm text-gray-900 dark:text-white">João  Buzzo</span>
+                    <span class="block text-sm text-gray-900 dark:text-white">João Buzzo</span>
                     <span class="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">joao@gmail.com</span>
                 </div>
                 <ul class="py-2">

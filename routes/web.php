@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('user', UserController::class);
+Route::resource('user', UserController::class)->except('store', 'update');
 
 
 Route::get('/', Welcome::class)->name('welcome');
