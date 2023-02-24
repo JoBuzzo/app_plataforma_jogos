@@ -4,7 +4,7 @@
 @section('title', 'Cadastro')
 @section('slot')
 
-    <div class="w-[700px] flex items-center justify-center my-6">
+    <div class="w-[700px] flex flex-col items-center justify-center my-6">
        <livewire:user-form  />
     </div>
 
