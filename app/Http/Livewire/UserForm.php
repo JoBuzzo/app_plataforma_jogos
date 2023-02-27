@@ -4,18 +4,29 @@ namespace App\Http\Livewire;
 
 use App\Models\User;
 use Livewire\Component;
+use Livewire\WithFileUploads;
+use Illuminate\Support\Str;
 
 class UserForm extends Component
 {
+    use WithFileUploads;
 
-    public $user;
-    public $name;
-    public $nick;
-    public $email;
-    public $password;
-    public $password_confirmation;
-    public $terms;
+    public $user, $name, $nick, $email, $password, $password_confirmation, $terms;
     
+    public $photo;
+    
+    
+
+    public function avatar(){
+        
+        $name = explode(' ', $this->name);
+        $first = substr($name[0], 0, 1);
+        $last = substr(end($name), 0, 1);
+        $avatar = strtoupper($first . $last);
+
+        return $avatar;
+    }
+
     public function rules()
     {
         $rules = [
@@ -24,6 +35,7 @@ class UserForm extends Component
             'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|min:6|confirmed',
             'terms' => 'required',
+            'photo' => 'nullable|image|max:1024'
         ];
 
         if ($this->user) {
@@ -37,7 +49,7 @@ class UserForm extends Component
     public function mount($user = null)
     {
         $this->user = $user;
-
+      
 
         // caso ja exista o user
         if ($user) {
@@ -56,8 +68,17 @@ class UserForm extends Component
 
     public function save()
     {
-        $this->validate();
         
+        $this->validate();
+
+
+        $nameFile = Str::slug($this->name) . '.'.$this->photo->getClientOriginalExtension();
+        
+        if($path = $this->photo->storeAs('users', $nameFile)){
+            $this->user->update([
+                'photo' => $path,
+            ]);
+        }
 
         if ($this->user) {
             $this->user->update([
@@ -66,6 +87,7 @@ class UserForm extends Component
                 'nick' => $this->nick,
                 'password' => $this->password ? bcrypt($this->password) : $this->user->password,
                 'terms' => $this->terms,
+                'photo' => $path,
             ]);
         } else {
             User::create([
@@ -78,9 +100,9 @@ class UserForm extends Component
             $this->reset();
         }
 
-        
-
     }
+
+    
     public function render()
     {
         return view('livewire.user-form');
