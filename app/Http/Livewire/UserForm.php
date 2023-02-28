@@ -74,8 +74,14 @@ class UserForm extends Component
     {
         
         $this->validate();
-        $nameFile = Str::slug($this->name) . '.'.$this->photo->getClientOriginalExtension();
-        $this->photo->storeAs('public/users', $nameFile);
+        
+        if($this->photo){
+            $nameFile = Str::slug($this->name) . '.'.$this->photo->getClientOriginalExtension();
+            $path = "users/$nameFile";
+            $this->photo->storeAs('public/users', $nameFile); 
+        }else{
+            $path = '';
+        }
         
 
         if ($this->user) {
@@ -85,7 +91,7 @@ class UserForm extends Component
                 'nick' => $this->nick,
                 'password' => $this->password ? bcrypt($this->password) : $this->user->password,
                 'terms' => $this->terms,
-                'photo' => "users/$nameFile",
+                'photo' => $path,
             ]);
         } else {
             User::create([
@@ -94,7 +100,7 @@ class UserForm extends Component
                 'nick' => $this->nick,
                 'password' => bcrypt($this->password),
                 'terms' => $this->terms,
-                'photo' => "users/$nameFile",
+                'photo' => $path,
             ]);
             $this->reset();
         }
