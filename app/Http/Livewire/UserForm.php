@@ -11,10 +11,7 @@ class UserForm extends Component
 {
     use WithFileUploads;
 
-    public $user, $name, $nick, $email, $password, $password_confirmation, $terms;
-    
-    public $photo;
-    
+    public $user, $name, $nick, $email, $password, $password_confirmation, $terms, $photo;
     
 
     public function avatar(){
@@ -27,6 +24,12 @@ class UserForm extends Component
         return $avatar;
     }
 
+    public function clearImage()
+    {
+    $this->photo = null;
+    $this->resetValidation('photo');
+    $this->dispatchBrowserEvent('clear-photo');
+    }
     public function rules()
     {
         $rules = [
@@ -57,6 +60,7 @@ class UserForm extends Component
             $this->nick = $user->nick;
             $this->email = $user->email;
             $this->terms = $user->terms;
+            $this->photo = $user->photo ;
         }
 
     }
@@ -70,15 +74,9 @@ class UserForm extends Component
     {
         
         $this->validate();
-
-
         $nameFile = Str::slug($this->name) . '.'.$this->photo->getClientOriginalExtension();
+        $this->photo->storeAs('public/users', $nameFile);
         
-        if($path = $this->photo->storeAs('users', $nameFile)){
-            $this->user->update([
-                'photo' => $path,
-            ]);
-        }
 
         if ($this->user) {
             $this->user->update([
@@ -87,7 +85,7 @@ class UserForm extends Component
                 'nick' => $this->nick,
                 'password' => $this->password ? bcrypt($this->password) : $this->user->password,
                 'terms' => $this->terms,
-                'photo' => $path,
+                'photo' => "users/$nameFile",
             ]);
         } else {
             User::create([
@@ -96,6 +94,7 @@ class UserForm extends Component
                 'nick' => $this->nick,
                 'password' => bcrypt($this->password),
                 'terms' => $this->terms,
+                'photo' => "users/$nameFile",
             ]);
             $this->reset();
         }

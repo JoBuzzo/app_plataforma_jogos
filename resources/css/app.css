@@ -9,7 +9,7 @@
         dark:focus:ring-gray-700 rounded-lg text-sm p-2.5;
     }
     .user-dropdown{
-      @apply absolute text-base top-14 md:right-0 right-10 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600;
+      @apply absolute text-base bg-white divide-y divide-gray-100 rounded-lg shadow top-14 md:right-0 right-10 dark:bg-gray-700 dark:divide-gray-600;
     }
 
     .user-dropdown ul li a{
@@ -21,5 +21,46 @@
     }
     .link-no-active{
       @apply hover:text-blue-700 dark:text-gray-400 dark:hover:text-white
+    }
+
+
+    
+    
+
+    
+    
+    label{
+      @apply block mb-2 text-sm font-medium text-gray-900 dark:text-white
+    }
+    input[type="text"], input[type="email"], input[type="password"]{
+      @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+    }
+    input[type="checkbox"]{
+      @apply w-4 h-4 border border-gray-300 rounded bg-gray-50 dark:bg-gray-700 dark:border-gray-600 
+    }
+    #input-nick{
+      @apply rounded-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 md:w-72 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+    }
+    #at-sign-nick{
+      @apply inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600
+    }
+    .error{
+      @apply absolute text-sm text-red-500
+    }
+    button[type="submit"]{
+      @apply text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800
+    }
+
+
+
+    .close{
+     @apply flex items-center justify-center w-5 h-5 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white 
+    }
+    
+    .avatar-20{
+      @apply relative inline-flex items-center justify-center w-20 h-20 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600
+    }
+    .avatar-10{
+      @apply relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600
     }
 }
