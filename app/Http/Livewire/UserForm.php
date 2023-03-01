@@ -26,9 +26,13 @@ class UserForm extends Component
 
     public function clearImage()
     {
-    $this->photo = null;
-    $this->resetValidation('photo');
-    $this->dispatchBrowserEvent('clear-photo');
+        $this->photo = null;
+        if($this->user){
+            $this->user->photo = null;
+        }
+
+        $this->resetValidation('photo');
+        $this->dispatchBrowserEvent('clear-photo');
     }
     public function rules()
     {
@@ -38,7 +42,7 @@ class UserForm extends Component
             'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|min:6|confirmed',
             'terms' => 'required',
-            'photo' => 'nullable|image|max:1024'
+            'photo' => 'nullable|file|max:1024',
         ];
 
         if ($this->user) {
@@ -73,6 +77,7 @@ class UserForm extends Component
     public function save()
     {
         
+        // arrumar a validação da imagem quando o usuario edita seu perfil e não edita sua foto
         $this->validate();
         
         if($this->photo){
@@ -93,6 +98,7 @@ class UserForm extends Component
                 'terms' => $this->terms,
                 'photo' => $path,
             ]);
+            session()->flash('message', 'Seu perfil foi editado com sucesso.');
         } else {
             User::create([
                 'name' => $this->name,
@@ -103,6 +109,7 @@ class UserForm extends Component
                 'photo' => $path,
             ]);
             $this->reset();
+            session()->flash('message', 'Voce foi cadastrado com sucesso.');
         }
 
     }

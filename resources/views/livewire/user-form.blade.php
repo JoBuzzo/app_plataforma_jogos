@@ -1,5 +1,8 @@
-<form wire:submit.prevent="save">
+<form wire:submit.prevent="save" enctype="multipart/form-data">
 
+
+    <x-alert.success />
+    
     <div class="grid w-full mb-6 md:grid-cols-2">
 
         <div class="mr-20 md:mr-28">
@@ -13,17 +16,14 @@
                     @endif
                 </div>
                 <input type="file" id="photo" wire:model="photo" class="hidden">
-                @error('photo')<span class="error">{{ $message }}</span>@enderror
-                
-                
                     @if ($photo ||(isset($user) && $user->photo))        
-                        <img class="w-20 h-20 rounded-full" src="{{ optional($photo)->temporaryUrl() ?? url("storage/$user->photo") }} " alt="">
+                        <img class="w-20 h-20 rounded-full img" src="{{ optional($photo)->temporaryUrl() ?? url("storage/$user->photo") }} " alt="">
                     @else
                         <div class="avatar-20">
                             <span class="text-xl font-medium text-gray-600 dark:text-gray-300">{{ $this->avatar() }}</span>
                         </div>
                     @endif
-                
+                <div>@error('photo')<span class="error">{{ $message }}</span>@enderror</div>
             </label>
         </div>
         
