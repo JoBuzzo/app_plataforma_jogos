@@ -42,12 +42,13 @@ class UserForm extends Component
             'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|min:6|confirmed',
             'terms' => 'required',
-            'photo' => 'nullable|file|max:1024',
+            'photo' => 'nullable|image|max:1024',
         ];
 
         if ($this->user) {
             $rules['email'] .= ',' . $this->user->id;
             $rules['password'] = 'nullable|min:6|confirmed';
+            $rules['photo'] = 'nullable|max:1024';
         }
 
         return $rules;
@@ -64,7 +65,7 @@ class UserForm extends Component
             $this->nick = $user->nick;
             $this->email = $user->email;
             $this->terms = $user->terms;
-            $this->photo = $user->photo ;
+            $this->photo = $user->photo;
         }
 
     }
@@ -77,14 +78,32 @@ class UserForm extends Component
     public function save()
     {
         
-        // arrumar a validação da imagem quando o usuario edita seu perfil e não edita sua foto
         $this->validate();
-        
-        if($this->photo){
+
+
+        //logica de imagem
+        if($this->photo && !$this->user){
+            //Caso adicione um usuario e adiciona a foto
             $nameFile = Str::slug($this->name) . '.'.$this->photo->getClientOriginalExtension();
             $path = "users/$nameFile";
             $this->photo->storeAs('public/users', $nameFile); 
-        }else{
+            
+        }else if($this->photo && $this->user){
+            //caso o usuario edita seu perfil e nao edita sua foto
+            $path = $this->photo;
+
+            //caso o usuario edita seu perfil e sua foto
+            if($path->getPath()){
+                if (str_contains($path->getPath(), 'livewire-tmp')){
+                    $nameFile = Str::slug($this->name) . '.'.$this->photo->getClientOriginalExtension();
+                    $path = "users/$nameFile";
+                    $this->photo->storeAs('public/users', $nameFile);
+                }
+            }
+
+        }
+        if(!$this->photo){
+            //caso cadastre um novo usuario e não adiciona foto
             $path = '';
         }
         

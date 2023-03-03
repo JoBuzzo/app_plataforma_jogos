@@ -75,7 +75,7 @@
         </div>
     @endif
 
-    <button type="submit">Cadastrar</button>
+    <button type="submit">{{ !$user || !$user->exists ? "Cadastrar" : "Editar" }}</button>
 
 </form>
 
