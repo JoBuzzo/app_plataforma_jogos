@@ -11,7 +11,7 @@ class UserForm extends Component
 {
     use WithFileUploads;
 
-    public $user, $name, $nick, $email, $password, $password_confirmation, $terms, $photo;
+    public $user, $name, $nick, $email, $password, $password_confirmation, $terms, $photo, $description;
     
 
     public function avatar(){
@@ -43,6 +43,7 @@ class UserForm extends Component
             'password' => 'required|min:6|confirmed',
             'terms' => 'required',
             'photo' => 'nullable|image|max:1024',
+            'description' => 'nullable|string|min:2',
         ];
 
         if ($this->user) {
@@ -66,6 +67,7 @@ class UserForm extends Component
             $this->email = $user->email;
             $this->terms = $user->terms;
             $this->photo = $user->photo;
+            $this->description = $user->description;
         }
 
     }
@@ -91,14 +93,13 @@ class UserForm extends Component
         }else if($this->photo && $this->user){
             //caso o usuario edita seu perfil e nao edita sua foto
             $path = $this->photo;
-
+          
             //caso o usuario edita seu perfil e sua foto
-            if($path->getPath()){
-                if (str_contains($path->getPath(), 'livewire-tmp')){
-                    $nameFile = Str::slug($this->name) . '.'.$this->photo->getClientOriginalExtension();
-                    $path = "users/$nameFile";
-                    $this->photo->storeAs('public/users', $nameFile);
-                }
+            //verifica se existe o metodo getPath na variavel $path e verifica se tem a string livewire-tmp 
+            if(method_exists($path, 'getPath') && str_contains($path->getPath(), 'livewire-tmp')){
+                $nameFile = Str::slug($this->name) . '.'.$this->photo->getClientOriginalExtension();
+                $path = "users/$nameFile";
+                $this->photo->storeAs('public/users', $nameFile);
             }
 
         }
@@ -116,6 +117,7 @@ class UserForm extends Component
                 'password' => $this->password ? bcrypt($this->password) : $this->user->password,
                 'terms' => $this->terms,
                 'photo' => $path,
+                'description' => $this->description,
             ]);
             session()->flash('message', 'Seu perfil foi editado com sucesso.');
         } else {
@@ -125,7 +127,7 @@ class UserForm extends Component
                 'nick' => $this->nick,
                 'password' => bcrypt($this->password),
                 'terms' => $this->terms,
-                'photo' => $path,
+                'description' => $this->description,
             ]);
             $this->reset();
             session()->flash('message', 'Voce foi cadastrado com sucesso.');
